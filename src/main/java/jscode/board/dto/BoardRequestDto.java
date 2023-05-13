@@ -1,13 +1,14 @@
 package jscode.board.dto;
 
 import jscode.board.domain.Board;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardRequestDto {
     private String head;
     private String body;

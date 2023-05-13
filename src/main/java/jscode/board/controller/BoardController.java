@@ -18,10 +18,10 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/boards")
-    @ResponseStatus(HttpStatus.CREATED)
+    //@ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto req) {
         BoardResponseDto board = boardService.createBoard(req);
-        return ResponseEntity.ok().body(board);
+        return new ResponseEntity(board, HttpStatus.CREATED);
     }
 
     @GetMapping("/boards")

@@ -1,17 +1,12 @@
 package jscode.board.domain;
 
 import jscode.board.dto.BoardRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Board {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +23,12 @@ public class Board {
         head = req.getHead();
         body = req.getBody();
     }
+
+    @Builder
+    public Board(String head, String body) {
+        this.head = head;
+        this.body = body;
+    }
+
 
 }
