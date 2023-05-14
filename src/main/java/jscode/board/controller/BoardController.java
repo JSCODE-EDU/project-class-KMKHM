@@ -50,4 +50,11 @@ public class BoardController {
     public void deleteBoard(@PathVariable Long id) throws Exception {
         boardService.deleteBoard(id);
     }
+
+    @GetMapping("/boards/searching/{title}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Board>> searchBoardByTitle(@PathVariable String title) {
+        List<Board> results = boardService.findBoardByHead(title);
+        return ResponseEntity.ok().body(results);
+    }
 }

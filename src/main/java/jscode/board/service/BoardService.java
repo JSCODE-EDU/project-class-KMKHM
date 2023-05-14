@@ -54,4 +54,12 @@ public class    BoardService {
         boardRepository.delete(board);
     }
 
+    @Transactional(readOnly = true)
+    public List<Board> findBoardByHead(String head) {
+        Pageable pageable = PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "createDate"));
+        List<Board> results = boardRepository.findByHeadContaining(head, pageable);
+        results.forEach(e -> BoardResponseDto.toDto(e));
+        return results;
+    }
+
 }
