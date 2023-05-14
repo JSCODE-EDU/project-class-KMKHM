@@ -5,6 +5,9 @@ import jscode.board.dto.BoardRequestDto;
 import jscode.board.dto.BoardResponseDto;
 import jscode.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,8 @@ public class    BoardService {
 
     @Transactional(readOnly = true)
     public List<Board> findAllBoards() {
-        List<Board> boards = boardRepository.findAll();
+        Pageable pageable = PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "createDate"));
+        List<Board> boards = boardRepository.findAll(pageable).getContent();
         boards.forEach(e -> BoardResponseDto.toDto(e));
         return boards;
     }
