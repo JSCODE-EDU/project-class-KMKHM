@@ -3,6 +3,7 @@ package jscode.board.service;
 import jscode.board.domain.Board;
 import jscode.board.dto.BoardRequestDto;
 import jscode.board.dto.BoardResponseDto;
+import jscode.board.exception.BoardNotFoundException;
 import jscode.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -35,22 +36,22 @@ public class    BoardService {
     }
 
     @Transactional(readOnly = true)
-    public BoardResponseDto findBoard(Long id) throws Exception {
-        Board board = boardRepository.findById(id).orElseThrow(Exception::new);
+    public BoardResponseDto findBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         return BoardResponseDto.toDto(board);
     }
 
 
     @Transactional
-    public BoardResponseDto editBoard(Long id, BoardRequestDto req) throws Exception {
-        Board board = boardRepository.findById(id).orElseThrow(Exception::new);
+    public BoardResponseDto editBoard(Long id, BoardRequestDto req) {
+        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         board.editBoard(req);
         return BoardResponseDto.toDto(board);
     }
 
     @Transactional
-    public void deleteBoard(Long id) throws Exception {
-        Board board = boardRepository.findById(id).orElseThrow(Exception::new);
+    public void deleteBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         boardRepository.delete(board);
     }
 

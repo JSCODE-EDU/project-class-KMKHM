@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,7 @@ public class BoardController {
 
     @PostMapping("/boards")
     //@ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto req) {
+    public ResponseEntity<BoardResponseDto> createBoard(@Valid @RequestBody BoardRequestDto req) {
         BoardResponseDto board = boardService.createBoard(req);
         return new ResponseEntity(board, HttpStatus.CREATED);
     }
@@ -33,27 +35,27 @@ public class BoardController {
 
     @GetMapping("/boards/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BoardResponseDto> findBoard(@PathVariable Long id) throws Exception {
+    public ResponseEntity<BoardResponseDto> findBoard(@PathVariable Long id) {
         BoardResponseDto board = boardService.findBoard(id);
         return ResponseEntity.ok().body(board);
     }
 
     @PutMapping("/boards/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BoardResponseDto> editBoard(@PathVariable Long id, @RequestBody BoardRequestDto req) throws Exception {
+    public ResponseEntity<BoardResponseDto> editBoard(@PathVariable Long id, @Valid @RequestBody BoardRequestDto req) {
         BoardResponseDto result = boardService.editBoard(id, req);
         return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/boards/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteBoard(@PathVariable Long id) throws Exception {
+    public void deleteBoard(@PathVariable Long id) {
         boardService.deleteBoard(id);
     }
 
     @GetMapping("/boards/searching/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Board>> searchBoardByTitle(@PathVariable String title) {
+    public ResponseEntity<List<Board>> searchBoardByTitle(@NotBlank @PathVariable String title) {
         List<Board> results = boardService.findBoardByHead(title);
         return ResponseEntity.ok().body(results);
     }
