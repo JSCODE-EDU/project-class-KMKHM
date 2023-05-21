@@ -1,4 +1,4 @@
-package jscode.board.dto;
+package jscode.board.dto.board;
 
 import jscode.board.domain.Board;
 import lombok.AccessLevel;

@@ -1,6 +1,6 @@
 package jscode.board.domain;
 
-import jscode.board.dto.BoardRequestDto;
+import jscode.board.dto.board.BoardRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
