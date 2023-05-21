@@ -2,10 +2,9 @@ package jscode.board.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import jscode.board.domain.Board;
-import jscode.board.dto.BoardRequestDto;
-import jscode.board.dto.BoardResponseDto;
+import jscode.board.dto.board.BoardRequestDto;
+import jscode.board.dto.board.BoardResponseDto;
 import jscode.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

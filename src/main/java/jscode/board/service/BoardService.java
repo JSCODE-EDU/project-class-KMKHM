@@ -1,9 +1,9 @@
 package jscode.board.service;
 
 import jscode.board.domain.Board;
-import jscode.board.dto.BoardRequestDto;
-import jscode.board.dto.BoardResponseDto;
-import jscode.board.exception.BoardNotFoundException;
+import jscode.board.dto.board.BoardRequestDto;
+import jscode.board.dto.board.BoardResponseDto;
+import jscode.board.exception.board.BoardNotFoundException;
 import jscode.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class    BoardService {
+public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
