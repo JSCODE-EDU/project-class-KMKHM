@@ -1,4 +1,4 @@
-package jscode.board.config;
+package jscode.board.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
