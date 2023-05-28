@@ -2,11 +2,14 @@ package jscode.board.dto.member;
 
 
 import jscode.board.domain.Member;
+import jscode.board.domain.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -23,10 +26,15 @@ public class MemberRequestDto {
     @Length(min = 8, max = 15)
     private String password;
 
-    public Member toEntity() {
+    public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
+                .role(Role.ROLE_USER)
                 .build();
+    }
+
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(email, password);
     }
 }

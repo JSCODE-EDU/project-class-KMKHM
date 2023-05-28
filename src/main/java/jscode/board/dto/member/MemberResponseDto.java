@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberResponseDto {
     private Long id;
-    private String head;
+    private String email;
     private String createDate;
 
 
