@@ -19,15 +19,20 @@ public class Board extends BaseTimeEntity {
     @Lob
     private String body;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     public void editBoard(BoardRequestDto req) {
         head = req.getHead();
         body = req.getBody();
     }
 
     @Builder
-    public Board(String head, String body) {
+    public Board(String head, String body, Member member) {
         this.head = head;
         this.body = body;
+        this.member = member;
     }
 
 
