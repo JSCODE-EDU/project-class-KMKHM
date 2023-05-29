@@ -1,11 +1,15 @@
 package jscode.board.service;
 
+import jscode.board.config.jwt.JwtTokenProvider;
 import jscode.board.domain.Member;
 import jscode.board.dto.member.MemberRequestDto;
 import jscode.board.dto.member.MemberResponseDto;
 import jscode.board.exception.member.EmailAlreadyExistsException;
+import jscode.board.exception.member.NotFoundMemberException;
 import jscode.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,17 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public MemberResponseDto signup(MemberRequestDto req) {
-        validateSignUpInfo(req.getEmail());
-        Member member = memberRepository.save(req.toEntity());
-        return MemberResponseDto.toDto(member);
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
-    private void validateSignUpInfo(String email) {
-        if (memberRepository.existsByEmail(email)){
-            throw new EmailAlreadyExistsException();
-        }
+    public MemberResponseDto getMemberInfo(String token){
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        Long id = Long.valueOf(authentication.getName());
+        Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
+        return MemberResponseDto.toDto(member);
     }
 
 }

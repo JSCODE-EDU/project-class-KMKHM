@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +27,8 @@ public class Member extends BaseTimeEntity{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
 
     @Builder
     public Member(String email, String password, Role role) {
