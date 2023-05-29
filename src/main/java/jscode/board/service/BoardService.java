@@ -28,7 +28,7 @@ public class BoardService {
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto req) {
         Member member = memberRepository.findById(jwtAuth()).orElseThrow(NotFoundMemberException::new);
-        Board board = boardRepository.save(new Board(req.getHead(), req.getHead(), member));
+        Board board = boardRepository.save(new Board(req.getHead(), req.getBody(), member));
         BoardResponseDto boardResponseDto = BoardResponseDto.toDto(board);
         return boardResponseDto;
     }
