@@ -28,10 +28,7 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto req) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = authentication.getName();
-        Long id = Long.parseLong(name);
-        Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
+        Member member = memberRepository.findById(jwtAuth()).orElseThrow(NotFoundMemberException::new);
         Board board = boardRepository.save(new Board(req.getHead(), req.getHead(), member));
         BoardResponseDto boardResponseDto = BoardResponseDto.toDto(board);
         return boardResponseDto;
@@ -55,6 +52,9 @@ public class BoardService {
     @Transactional
     public BoardResponseDto editBoard(Long id, BoardRequestDto req) {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        if (board.getMember().getId() != jwtAuth()) {
+            throw new RuntimeException("게시글 유저 키와 jwt 유저 키가 일치하지 않습니다.");
+        }
         board.editBoard(req);
         return BoardResponseDto.toDto(board);
     }
@@ -71,6 +71,13 @@ public class BoardService {
         List<Board> results = boardRepository.findByHeadContaining(head, pageable);
         results.forEach(e -> BoardResponseDto.toDto(e));
         return results;
+    }
+
+    public Long jwtAuth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        Long id = Long.parseLong(name);
+        return id;
     }
 
 }
