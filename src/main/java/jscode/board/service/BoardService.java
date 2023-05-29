@@ -1,6 +1,5 @@
 package jscode.board.service;
 
-import jscode.board.config.jwt.JwtTokenProvider;
 import jscode.board.domain.Board;
 import jscode.board.domain.Member;
 import jscode.board.dto.board.BoardRequestDto;
@@ -62,6 +61,9 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        if (board.getMember().getId() != jwtAuth()) {
+            throw new RuntimeException("게시글 유저 키와 jwt 유저 키가 일치하지 않습니다.");
+        }
         boardRepository.delete(board);
     }
 
