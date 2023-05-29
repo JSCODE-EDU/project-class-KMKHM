@@ -1,12 +1,14 @@
 package jscode.board.service;
 
 import jscode.board.domain.Board;
+import jscode.board.domain.Comment;
 import jscode.board.domain.Member;
 import jscode.board.dto.board.BoardRequestDto;
 import jscode.board.dto.board.BoardResponseDto;
 import jscode.board.exception.board.BoardNotFoundException;
 import jscode.board.exception.member.NotFoundMemberException;
 import jscode.board.repository.BoardRepository;
+import jscode.board.repository.CommentRepository;
 import jscode.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import java.util.List;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto req) {
