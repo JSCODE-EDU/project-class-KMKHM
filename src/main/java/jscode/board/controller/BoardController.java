@@ -67,4 +67,13 @@ public class BoardController {
         List<Board> results = boardService.findBoardByHead(title);
         return ResponseEntity.ok().body(results);
     }
+
+    @ApiOperation(value = "좋아요", notes = "특정 게시글 좋아요 표시 or 취소")
+    @PostMapping("/boards/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> likeBoard(@PathVariable Long id) {
+        String result = boardService.likeBoard(id);
+        return ResponseEntity.ok().body(result);
+    }
+
 }

@@ -1,14 +1,16 @@
 package jscode.board.service;
 
 import jscode.board.domain.Board;
-import jscode.board.domain.Comment;
+import jscode.board.domain.LikeBoard;
 import jscode.board.domain.Member;
 import jscode.board.dto.board.BoardRequestDto;
 import jscode.board.dto.board.BoardResponseDto;
 import jscode.board.exception.board.BoardNotFoundException;
+import jscode.board.exception.like.NotFoundLikeException;
 import jscode.board.exception.member.NotFoundMemberException;
 import jscode.board.repository.BoardRepository;
 import jscode.board.repository.CommentRepository;
+import jscode.board.repository.LikeRepository;
 import jscode.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.List;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
@@ -77,6 +80,25 @@ public class BoardService {
         results.forEach(e -> BoardResponseDto.toDto(e));
         return results;
     }
+
+    @Transactional
+    public String likeBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        Member member = memberRepository.findById(jwtAuth()).orElseThrow(NotFoundMemberException::new);
+
+        if (!likeRepository.findByBoardIdAndMemberId(jwtAuth(), id).isPresent()) {
+            likeRepository.save(new LikeBoard(member, board));
+            board.increaseLikeCount();
+            return "좋아요";
+        }
+
+        LikeBoard like = likeRepository.findByBoardIdAndMemberId(jwtAuth(), id).orElseThrow(NotFoundLikeException::new);
+        likeRepository.delete(like);
+        board.decreaseLikeCount();
+        return "좋아요 취소";
+    }
+
+
 
     public Long jwtAuth() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -4,6 +4,7 @@ import jscode.board.exception.board.BoardNotFoundException;
 import jscode.board.exception.jwt.InvalidRefreshTokenException;
 import jscode.board.exception.jwt.InvalidTokenException;
 import jscode.board.exception.jwt.LogoutException;
+import jscode.board.exception.like.NotFoundLikeException;
 import jscode.board.exception.member.EmailAlreadyExistsException;
 import jscode.board.exception.member.NotFoundMemberException;
 import jscode.board.exception.response.Response;
@@ -51,6 +52,12 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response invalidTokenException() {
         return new Response(ExceptionType.INVALID_TOKEN_EXCEPTION);
+    }
+
+    @ExceptionHandler(NotFoundLikeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response notFoundLikeException() {
+        return new Response(ExceptionType.NOT_FOUND_LIKE_EXCEPTION);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
