@@ -14,7 +14,8 @@ public enum ExceptionType {
     NOT_FOUND_MEMBER_EXCEPTION(404, "존재하지 않는 멤버입니다."),
     INVALID_REFRESH_TOKEN_EXCEPTION(401, "Refresh Token이 유효하지 않습니다."),
     LOGOUT_EXCEPTION(401, "로그아웃된 사용자입니다."),
-    INVALID_TOKEN_EXCEPTION(401, "토큰이 잘못되었습니다.")
+    INVALID_TOKEN_EXCEPTION(401, "토큰이 잘못되었습니다."),
+    NOT_FOUND_LIKE_EXCEPTION(404, "좋아요한 기록이 없습니다.")
     ;
 
     private final int status;

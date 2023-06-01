@@ -28,9 +28,19 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
+    private int recommends;
+
     public void editBoard(BoardRequestDto req) {
         head = req.getHead();
         body = req.getBody();
+    }
+
+    public void increaseLikeCount() {
+        this.recommends += 1;
+    }
+
+    public void decreaseLikeCount() {
+        this.recommends -= 1;
     }
 
     @Builder
@@ -38,6 +48,7 @@ public class Board extends BaseTimeEntity {
         this.head = head;
         this.body = body;
         this.member = member;
+        this.recommends = 0;
     }
 
 
